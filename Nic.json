@@ -54,7 +54,7 @@
                 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
                 "networkSecurityGroup": {
-                    "id": "[resourceId(parameters('nsg_name')]"
+                    "id": "[resourceId(parameters('nsg_name'))]"
                 }
             },
             "dependsOn": []
