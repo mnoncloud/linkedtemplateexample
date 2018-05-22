@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "nic_name": {
+            "defaultValue": "mntestec768",
+            "type":"string"
+        },
+        "pip_name": {
+            "defaultValue": "mntestec-ip",
+            "type":"string"
+        },
+        "nsg_name": {
+            "defaultValue": "mntestec-nsg",
+            "type":"string"
+        },
+        "subnet1_name": {
+            "defaultValue": "subnet1",
+            "type":"string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('nic_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "southindia",
+            "scale": null,
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.19.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[parameters('pip_id')]"
+                            },
+                            "subnet": {
+                                "id": "[parameters('subnet1_id')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "u5a30pblr1yelofbjfy2rdusee.tx.internal.cloudapp.net"
+                },
+                "macAddress": "00-0D-3A-F2-A0-01",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_mntestec_nsg_name'))]"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}

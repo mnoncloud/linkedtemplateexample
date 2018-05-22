@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnet_name": {
+            "defaultValue": "mnectempbuild-vnet",
+            "type":"string"
+        },
+        "subnet1_name": {
+            "defaultValue": "subnet1",
+            "type":"string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('vnet_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "southindia",
+            "scale": null,
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.19.0/24"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnet1_name')]",
+                        "properties": {
+                            "addressPrefix": "10.0.19.0/24"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            },
+            "dependsOn": []
+        }
+    ],
+    "outputs": {
+        "vnetID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnet_name'))]"
+        },
+        "snetID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('subnet1_name'))]"
+        }
+    }
+}
