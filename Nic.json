@@ -35,10 +35,10 @@
                             "privateIPAddress": "10.0.19.4",
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[parameters('pip_id')]"
+                                "id": "[resourceId(parameters('pip_name'))]"
                             },
                             "subnet": {
-                                "id": "[parameters('subnet1_id')]"
+                                "id": "[resourceId(parameters('subnet1_name'))]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -54,7 +54,7 @@
                 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_mntestec_nsg_name'))]"
+                    "id": "[resourceId(parameters('nsg_name')]"
                 }
             },
             "dependsOn": []
