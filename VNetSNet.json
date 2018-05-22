@@ -47,7 +47,7 @@
         },
         "snetID": {
             "type": "string",
-            "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnet1_name'))]"
+            "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnet_name'),parameters('subnet1_name'))]"
         }
     }
 }
