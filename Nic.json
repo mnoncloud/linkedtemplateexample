@@ -35,10 +35,10 @@
                             "privateIPAddress": "10.0.19.4",
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId(parameters('pip_name'))]"
+                                "id": "[parameters('pip_name')]"
                             },
                             "subnet": {
-                                "id": "[resourceId(parameters('subnet1_name'))]"
+                                "id": "[parameters('subnet1_name')]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -54,7 +54,7 @@
                 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": false,
                 "networkSecurityGroup": {
-                    "id": "[resourceId(parameters('nsg_name'))]"
+                    "id": "[parameters('nsg_name')]"
                 }
             },
             "dependsOn": []
