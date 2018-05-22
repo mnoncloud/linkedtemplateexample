@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "pip_name": {
+            "defaultValue": "mntestec-ip",
+            "type": "string"
+        },
+        "vnet_name": {
+            "defaultValue": "mnectempbuild-vnet",
+            "type":"string"
+        },
+        "subnet1_name": {
+            "defaultValue": "subnet1",
+            "type":"string"
+        },
+        "nic_name": {
+            "defaultValue": "mntestec768",
+            "type":"string"
+        },
+        "nsg_name": {
+            "defaultValue": "mntestec-nsg",
+            "type":"string"
+        }
+    },
+    "variables": {
+        "filesuri": "https://raw.githubusercontent.com/mnoncloud/linkedtemplateexample/master/"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "PipTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(variables('filesuri'), 'PublicIPAddress.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "pip_name":{"value": "[parameters('pip_name')]"}
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "VNetTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(variables('filesuri'), 'VNetSNet.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "vnet_name":{"value": "[parameters('vnet_name')]"},
+                    "subnet1_name":{"value": "[parameters('subnet1_name')]"}
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "NSGTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(variables('filesuri'), 'NSG.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "nsg_name": {"value": "[parameters('nsg_name')]"}
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "NicTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(variables('filesuri'), 'Nic.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "nic_name":{"value": "[parameters('nic_name')]"},
+                    "pip_name":{"value": "[reference('pipTemplate').outputs.pipID.value]"},
+                    "nsg_name":{"value": "[reference('NSGTemplate').outputs.nsgID.value]"},
+                    "subnet1_name":{"value": "[reference('VNetTemplate').outputs.snetID.value]"}
+                }
+            },
+            "dependsOn": [
+                "pipTemplate",
+                "NSGTemplate",
+                "VNetTemplate"
+            ]
+        }
+    ]
+}
