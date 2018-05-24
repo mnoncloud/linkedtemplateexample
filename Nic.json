@@ -59,5 +59,11 @@
             },
             "dependsOn": []
         }
-    ]
+    ],
+    "outputs": {
+        "nicID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic_name'))]"
+        }
+    }
 }
