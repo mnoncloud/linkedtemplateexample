@@ -21,6 +21,10 @@
         "nsg_name": {
             "defaultValue": "mntestec-nsg",
             "type":"string"
+        },
+        "vm_name": {
+            "defaultValue": "mntestec",
+            "type": "string"
         }
     },
     "variables": {
@@ -94,6 +98,25 @@
                 "pipTemplate",
                 "NSGTemplate",
                 "VNetTemplate"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "VMTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(variables('filesuri'), 'VM.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "vm_name":{"value": "[parameters('vm_name')]"},
+                    "nic_name":{"value": "[reference('NicTemplate').outputs.nicID.value]"}
+                }
+            },
+            "dependsOn": [
+                "NicTemplate"
             ]
         }
     ]
