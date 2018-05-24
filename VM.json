@@ -38,6 +38,7 @@
                 "osProfile": {
                     "computerName": "[parameters('vm_name')]",
                     "adminUsername": "mnadmin",
+                    "adminPassword": "Password@1234",
                     "windowsConfiguration": {
                         "provisionVMAgent": true,
                         "enableAutomaticUpdates": true
